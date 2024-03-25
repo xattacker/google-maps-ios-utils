@@ -3,8 +3,22 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
+
+/* Begin PBXAggregateTarget section */
+		C5C478F82BB102A100AD304C /* XCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C5C478F92BB102A100AD304C /* Build configuration list for PBXAggregateTarget "XCFramework" */;
+			buildPhases = (
+				C5C478FC2BB102B900AD304C /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = XCFramework;
+			productName = XFCFramework;
+		};
+/* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		3A01F81B24EF47690054A305 /* HeatMapInterpolationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A421BD224E748A200CAD70F /* HeatMapInterpolationTests.swift */; };
@@ -408,7 +422,7 @@
 		AAE6B9DD2458C92B0051CD31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAE6B9DF2458C92B0051CD31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
 		AAE6B9E02458C92B0051CD31 /* HeatmapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeatmapViewController.m; path = app/HeatmapViewController.m; sourceTree = "<group>"; };
-		AAE6B9F52458C98B0051CD31 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = "Carthage/Build/GoogleMaps.xcframework/ios-arm64/GoogleMaps.framework/Resources/GoogleMaps.bundle"; sourceTree = "<group>"; };
+		AAE6B9F52458C98B0051CD31 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Carthage/Build/GoogleMaps.bundle; sourceTree = "<group>"; };
 		AAE6B9F92458C9EA0051CD31 /* GeoJSON_MultiLineString_Test.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GeoJSON_MultiLineString_Test.geojson; sourceTree = "<group>"; };
 		AAE6B9FA2458C9EA0051CD31 /* GeoJSON_MultiPolygon_Test.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GeoJSON_MultiPolygon_Test.geojson; sourceTree = "<group>"; };
 		AAE6B9FB2458C9EA0051CD31 /* GeoJSON_Point_Test.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GeoJSON_Point_Test.geojson; sourceTree = "<group>"; };
@@ -1171,6 +1185,9 @@
 						CreatedOnToolsVersion = 7.2.1;
 						LastSwiftMigration = 1120;
 					};
+					C5C478F82BB102A100AD304C = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					F849455A209C15CE00C60C05 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
@@ -1194,6 +1211,7 @@
 				0242D1CB1C7C1C1F00557130 /* DevApp */,
 				0242D1FD1C7D3AC300557130 /* UnitTest */,
 				F849455A209C15CE00C60C05 /* GoogleMapsUtils */,
+				C5C478F82BB102A100AD304C /* XCFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -1306,6 +1324,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+		};
+		C5C478FC2BB102B900AD304C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#env > env.txt\n#instruments -s devices > devices.txt\n#! /bin/sh -e\n# This script demonstrates archive and create action on frameworks and libraries\n# Based on script by @author Boris Bielik\n\n# Release dir path\nOUTPUT_DIR_PATH=\"${PROJECT_DIR}/XCFramework\"\n\nfunction archivePathSimulator {\n  local DIR=${OUTPUT_DIR_PATH}/archives/\"${1}-SIMULATOR\"\n  echo \"${DIR}\"\n}\n\nfunction archivePathDevice {\n  local DIR=${OUTPUT_DIR_PATH}/archives/\"${1}-DEVICE\"\n  echo \"${DIR}\"\n}\n\n# Archive takes 3 params\n#\n# 1st == SCHEME\n# 2nd == destination\n# 3rd == archivePath\nfunction archive {\n    echo \"▸ Starts archiving the scheme: ${1} for destination: ${2};\\n▸ Archive path: ${3}.xcarchive\"\n    xcodebuild clean archive \\\n    -project \"${PROJECT_NAME}.xcodeproj\" \\\n    -scheme ${1} \\\n    -configuration ${CONFIGURATION} \\\n    -destination \"${2}\" \\\n    -archivePath \"${3}\" \\\n    SKIP_INSTALL=NO \\\n    OBJROOT=\"${OBJROOT}/DependentBuilds\" \\\n    BUILD_LIBRARY_FOR_DISTRIBUTION=YES | xcpretty\n}\n\n# Builds archive for iOS simulator & device\nfunction buildArchive {\n  SCHEME=${1}\n\n  archive $SCHEME \"generic/platform=iOS Simulator\" $(archivePathSimulator $SCHEME)\n  archive $SCHEME \"generic/platform=iOS\" $(archivePathDevice $SCHEME)\n}\n\n# Creates xc framework\nfunction createXCFramework {\n  FRAMEWORK_ARCHIVE_PATH_POSTFIX=\".xcarchive/Products/Library/Frameworks\"\n  FRAMEWORK_SIMULATOR_DIR=\"$(archivePathSimulator $1)${FRAMEWORK_ARCHIVE_PATH_POSTFIX}\"\n  FRAMEWORK_DEVICE_DIR=\"$(archivePathDevice $1)${FRAMEWORK_ARCHIVE_PATH_POSTFIX}\"\n\n  xcodebuild -create-xcframework \\\n            -framework ${FRAMEWORK_SIMULATOR_DIR}/${1}.framework \\\n            -framework ${FRAMEWORK_DEVICE_DIR}/${1}.framework \\\n            -output ${OUTPUT_DIR_PATH}/xcframeworks/${1}.xcframework\n}\n\n### Static Libraries cant be turned into frameworks\nfunction createXCFrameworkForStaticLibrary {\n\n  LIBRARY_ARCHIVE_PATH_POSTFIX=\".xcarchive/Products/usr/local/lib\"\n  LIBRARY_SIMULATOR_DIR=\"$(archivePathSimulator $1)${LIBRARY_ARCHIVE_PATH_POSTFIX}\"\n  LIBRARY_DEVICE_DIR=\"$(archivePathDevice $1)${LIBRARY_ARCHIVE_PATH_POSTFIX}\"\n\n  xcodebuild -create-xcframework \\\n            -library ${LIBRARY_SIMULATOR_DIR}/libStaticLibrary.a \\\n            -library ${LIBRARY_DEVICE_DIR}/libStaticLibrary.a \\\n            -output ${OUTPUT_DIR_PATH}/xcframeworks/${1}.xcframework\n}\n\necho \"#####################\"\necho \"▸ Cleaning the dir: ${OUTPUT_DIR_PATH}\"\nrm -rf $OUTPUT_DIR_PATH\n\n#### Static Library ####\n#LIBRARY=\"${PROJECT_NAME}\"\n\n#echo \"▸ Archive $LIBRARY\"\n#buildArchive ${LIBRARY}\n\n#echo \"▸ Create $FRAMEWORK.xcframework\"\n#createXCFrameworkForStaticLibrary ${LIBRARY}\n\n#### Dynamic Framework ####\n\nDYNAMIC_FRAMEWORK=\"${PROJECT_NAME}\"\n\necho \"▸ Archive $DYNAMIC_FRAMEWORK\"\nbuildArchive ${DYNAMIC_FRAMEWORK}\n\necho \"▸ Create $DYNAMIC_FRAMEWORK.xcframework\"\ncreateXCFramework ${DYNAMIC_FRAMEWORK}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1500,9 +1535,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1549,8 +1586,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1718,6 +1757,24 @@
 			};
 			name = Release;
 		};
+		C5C478FA2BB102A100AD304C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LTDJBPHSV6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C5C478FB2BB102A100AD304C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LTDJBPHSV6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		F8494561209C15CE00C60C05 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0229C0F81D9A461000551202 /* GMU-DevApp.debug.xcconfig */;
@@ -1759,7 +1816,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 4.2.2;
+				MARKETING_VERSION = 4.3.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.gmsutils;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1813,7 +1870,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 4.2.2;
+				MARKETING_VERSION = 4.3.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.gmsutils;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1852,6 +1909,15 @@
 			buildConfigurations = (
 				0242D2071C7D3AC300557130 /* Debug */,
 				0242D2081C7D3AC300557130 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5C478F92BB102A100AD304C /* Build configuration list for PBXAggregateTarget "XCFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5C478FA2BB102A100AD304C /* Debug */,
+				C5C478FB2BB102A100AD304C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
