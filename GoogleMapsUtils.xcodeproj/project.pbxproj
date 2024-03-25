@@ -23,7 +23,6 @@
 /* Begin PBXBuildFile section */
 		3A01F81B24EF47690054A305 /* HeatMapInterpolationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A421BD224E748A200CAD70F /* HeatMapInterpolationTests.swift */; };
 		3A29044F24EC8C79002EB180 /* HeatMapInterpolationPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE91C6324E73C2400A3B9FA /* HeatMapInterpolationPoints.swift */; };
-		3A29047724EC964F002EB180 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AAE6B9F52458C98B0051CD31 /* GoogleMaps.bundle */; };
 		3E709C5224D131E600B8A7E1 /* GMUDefaultClusterRenderer+Testing.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E709C5124D1318F00B8A7E1 /* GMUDefaultClusterRenderer+Testing.h */; };
 		3E7A8F4224C2BBDD000318C3 /* GMUWeightedLatLngTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7A8F4124C2BBDD000318C3 /* GMUWeightedLatLngTest.swift */; };
 		3E7A8FC224C30C63000318C3 /* GMUObectiveCTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7A8FC124C30C63000318C3 /* GMUObectiveCTestHelper.m */; };
@@ -40,13 +39,13 @@
 		AA1116A72784FAF10018C904 /* OCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116A52784FAE50018C904 /* OCMock.xcframework */; };
 		AA1116B7278508BC0018C904 /* GoogleMapsBase.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B4278508BC0018C904 /* GoogleMapsBase.xcframework */; };
 		AA1116B8278508BC0018C904 /* GoogleMapsBase.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B4278508BC0018C904 /* GoogleMapsBase.xcframework */; };
-		AA1116B9278508BC0018C904 /* GoogleMapsBase.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B4278508BC0018C904 /* GoogleMapsBase.xcframework */; };
+		AA1116B9278508BC0018C904 /* GoogleMapsBase.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B4278508BC0018C904 /* GoogleMapsBase.xcframework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AA1116BA278508BC0018C904 /* GoogleMaps.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B5278508BC0018C904 /* GoogleMaps.xcframework */; };
 		AA1116BB278508BC0018C904 /* GoogleMaps.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B5278508BC0018C904 /* GoogleMaps.xcframework */; };
-		AA1116BC278508BC0018C904 /* GoogleMaps.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B5278508BC0018C904 /* GoogleMaps.xcframework */; };
+		AA1116BC278508BC0018C904 /* GoogleMaps.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B5278508BC0018C904 /* GoogleMaps.xcframework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AA1116BD278508BC0018C904 /* GoogleMapsCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B6278508BC0018C904 /* GoogleMapsCore.xcframework */; };
 		AA1116BE278508BC0018C904 /* GoogleMapsCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B6278508BC0018C904 /* GoogleMapsCore.xcframework */; };
-		AA1116BF278508BC0018C904 /* GoogleMapsCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B6278508BC0018C904 /* GoogleMapsCore.xcframework */; };
+		AA1116BF278508BC0018C904 /* GoogleMapsCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1116B6278508BC0018C904 /* GoogleMapsCore.xcframework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AA139D3925CC9DD300793F6E /* LatLngRadiansTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA139D3825CC9DD300793F6E /* LatLngRadiansTest.swift */; };
 		AA2DCF25254B2AE000009A82 /* GMSPath+GeometryUtilsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DCF24254B2AE000009A82 /* GMSPath+GeometryUtilsTest.swift */; };
 		AA50D0012536274800869802 /* MapPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA29A440252E6E2800D69D87 /* MapPoint.swift */; };
@@ -1280,7 +1279,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A29047724EC964F002EB180 /* GoogleMaps.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
